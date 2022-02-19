@@ -47,12 +47,16 @@ class ParamEvaluation {
       // return the list of params with the highest evalParam function value
       List<int> result = new List<int>();
       int N = 5;
+      nextPos = new List<int>();
+      maxVal = -999999;
       for (int i = 0; i< N; i++){
-        nextState = GetRandomNextState(currentPos)
-        sum = evalParam(nextState, this.paraWeights)
-        result.Add(sum)
+        nextState = GetRandomNextState(currentPos);
+        sum = evalParam(nextState, this.paraWeights);
+        if (sum > maxVal) {
+          nextPos = nextState;
+        }
       }
-      return result
+      return nextPos;
     }
 
     List<int> getWeights() {
@@ -64,7 +68,7 @@ class ParamEvaluation {
       // relevant parameters for equation: scoreDiff, paraWeights[i], paraValues[i]
       // apply evaluation rule (see whiteboard pic) to each parameter based on score's distance to target score
       // get learning rate with this.learningRate
-      paraWeights[i] = paraWeights[i] + (score-target)*this.learningRate*paraValues[i] 
+      paraWeights[i] = paraWeights[i] + (score-target)*this.learningRate*paraValues[i];
     }
 
     double evalParam(List<int> pos, List<float> weights) {
