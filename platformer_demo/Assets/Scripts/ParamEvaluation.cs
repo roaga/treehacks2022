@@ -50,6 +50,7 @@ class ParamEvaluation {
     void updateWeights(int score, int target, List<int> paraValues, List<float> paraWeights) {
       // apply evaluation rule (see whiteboard pic) to each parameter based on score's distance to target score
       // get learning rate with this.learningRate
+      paraWeights[i] = paraWeights[i] + (score-target)*this.learningRate*paraValues[i] 
     }
 
     double evalParam(List<int> pos, List<float> weights) {
