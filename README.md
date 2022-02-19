@@ -12,11 +12,12 @@
 platformer_demo
    ├─  ./Assets
    │        │  
-   │        │─ ./Scripts
-   │        │...
-   │        │...
-   │        │...
-   │        │...
+   │        │─   ./Scripts
+   │        .           │             
+   │        .           ├─────── Optimization.cs     
+   │        .           ...       
+   │        .       
+   │        .
    │        │─ ./Editor
    │
    │
