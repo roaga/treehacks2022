@@ -1,8 +1,10 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Networking;
 
-public class Optimization
+public class Optimization : MonoBehaviour
 {
     public List<Param> parameters;
 
@@ -55,9 +57,42 @@ public class Optimization
         float max = param.getMax();
         float targetReward = param.getTargetReward();
 
-        // TODO
+        // TODO: request flask server
+        
 
         return 0f;
+    }
+
+    [Serializable]
+    public class Data {
+        public List<float> x = new List<float>();
+        public List<float> y = new List<float>();
+    }
+
+    public void PostData(List<(float, float)> param) {
+        Data data = new Data();
+        foreach ((float, float) tuple in param) {
+            data.x.Add(tuple.Item1);
+            data.y.Add(tuple.Item2);
+        }
+        string json = JsonUtility.ToJson(data);
+        StartCoroutine(PostRequest("http://0.0.0.0:105/bayes", json));
+    }
+
+    IEnumerator PostRequest(string uri, string json) {
+        var uwr = new UnityWebRequest(uri, "POST");
+        byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
+        uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
+        uwr.downloadHandler = (DownloadHandler)new DownloadHandlerBuffer();
+        uwr.SetRequestHeader("Content-Type", "application/json");
+
+        yield return uwr.SendWebRequest();
+
+        if (uwr.result == UnityWebRequest.Result.ConnectionError) {
+            Debug.Log("Error While Sending: " + uwr.error);
+        } else {
+            Debug.Log("Received: " + uwr.downloadHandler.text);
+        }
     }
 
 
