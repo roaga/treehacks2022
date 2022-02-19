@@ -1,14 +1,14 @@
-# treehacks2022
+## <<Name>>
 
 
-# Requirments
+## Requirments
 
 
-# Folder Structure
+## Folder Structure
 
-## Frontend
+### Frontend
 
-## Backend - Bayesian Optimisation 
+### Backend - Bayesian Optimisation 
 
 
-# Usage
+## Usage
