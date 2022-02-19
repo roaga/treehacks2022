@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -9,6 +10,18 @@ public class Optimization : MonoBehaviour
     public List<Param> parameters;
 
     private int runs = 0;
+    // // Start is called before the first frame update
+    // void Start()
+    // {
+    //     p = new Param("test", 0f, 0f, 0f, 0f);
+    //     PostData(p);
+    // }
+
+    // // Update is called once per frame
+    // void Update()
+    // {
+    //     Debug.Log(p.getValue());
+    // }
     
     public Optimization(List<Param> paras) {
         this.parameters = paras;
@@ -57,11 +70,11 @@ public class Optimization : MonoBehaviour
         float max = param.getMax();
         float targetReward = param.getTargetReward();
 
-        // TODO: request flask server
-        
-
-        return 0f;
+        // request flask server
+        PostData(param);
     }
+
+    // NETWORKING
 
     [Serializable]
     public class Data {
@@ -69,17 +82,21 @@ public class Optimization : MonoBehaviour
         public List<float> y = new List<float>();
     }
 
-    public void PostData(List<(float, float)> param) {
+    public void PostData(Param param) {
         Data data = new Data();
-        foreach ((float, float) tuple in param) {
+        foreach ((float, float) tuple in param.getData()) {
             data.x.Add(tuple.Item1);
             data.y.Add(tuple.Item2);
+            // data.x.Add(i);
+            // data.y.Add(UnityEngine.Random.Range(0f, 20f));
         }
         string json = JsonUtility.ToJson(data);
-        StartCoroutine(PostRequest("http://0.0.0.0:105/bayes", json));
+        StartCoroutine(PostRequest("http://0.0.0.0:105/bayes", json, returnVal => {
+            param.setValue(returnVal);
+        }));
     }
 
-    IEnumerator PostRequest(string uri, string json) {
+    IEnumerator PostRequest(string uri, string json, System.Action<float> callback) {
         var uwr = new UnityWebRequest(uri, "POST");
         byte[] jsonToSend = new System.Text.UTF8Encoding().GetBytes(json);
         uwr.uploadHandler = (UploadHandler)new UploadHandlerRaw(jsonToSend);
@@ -91,20 +108,11 @@ public class Optimization : MonoBehaviour
         if (uwr.result == UnityWebRequest.Result.ConnectionError) {
             Debug.Log("Error While Sending: " + uwr.error);
         } else {
-            Debug.Log("Received: " + uwr.downloadHandler.text);
+            // Debug.Log("Received: " + uwr.downloadHandler.text);
+            yield return uwr.downloadHandler.text;
+            float val = float.Parse(uwr.downloadHandler.text, CultureInfo.InvariantCulture.NumberFormat);
+            callback(val);
         }
     }
-
-
-    // // Start is called before the first frame update
-    // void Start()
-    // {
-        
-    // }
-
-    // // Update is called once per frame
-    // void Update()
-    // {
-        
-    // }
+ 
 }
