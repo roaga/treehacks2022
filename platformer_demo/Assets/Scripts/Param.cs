@@ -2,21 +2,23 @@
 using System.Collections;
 using System.Collections.Generic;
 
+[System.Serializable]
 public class Param
 {
     /* it definitely makes sense to make param its own class to store potential metadata
     in addition to what I have below. not sure if this is the exact setup we want though
     */
-    public float currentValue;
-    public float defaultValue;
     public string name;
+    public float defaultValue;
     public float min;
     public float max;
     public float targetReward;
 
+    private float currentValue;
     private List<(float, float)> data;
 
-    public Param(string name, float defaultValue, float min, float max, float targetReward) {
+    public Param(string name, float defaultValue, float min, float max, float targetReward)
+    {
         this.currentValue = defaultValue;
         this.defaultValue = defaultValue;
         this.name = name;
@@ -26,45 +28,56 @@ public class Param
         this.targetReward = targetReward;
     }
 
-    public void setValue(float newValue) {
+    public void setValue(float newValue)
+    {
         this.currentValue = newValue;
     }
 
-    public float getDefault() {
+    public float getDefault()
+    {
         return this.defaultValue;
     }
 
-    public float getValue() {
+    public float getValue()
+    {
         return this.currentValue;
     }
 
-    public float getMin() {
+    public float getMin()
+    {
         return this.min;
     }
-    public float getMax() {
+    public float getMax()
+    {
         return this.max;
     }
 
-    public float getTargetReward() {
+    public float getTargetReward()
+    {
         return this.targetReward;
     }
 
-    public string getName() {
+    public string getName()
+    {
         return this.name;
     }
 
-    public List<(float, float)> getData() {
+    public List<(float, float)> getData()
+    {
         return this.data;
     }
 
-    public void addData(float reward) {
+    public void addData(float reward)
+    {
         this.data.Add((currentValue, reward));
-        if (data.Count > 1000) {
+        if (data.Count > 1000)
+        {
             data = data.GetRange(data.Count - 1000, data.Count);
         }
     }
 
-    void returnToDefault() {
+    void returnToDefault()
+    {
         this.currentValue = this.defaultValue;
     }
 

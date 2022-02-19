@@ -6,12 +6,12 @@ using UnityEngine;
 public class EaseTool : MonoBehaviour
 {
     public List<Param> paras;
-    public int numParas;
     // public func rewardFunc;
     private int numFrames;
-    private Optimziation optimizer;
+    [HideInInspector]
+    public Optimization optimizer;
     public int framesPerUpdate; // update params every N frames
-    void Start() {this.optimizer = new Optimziation(paras);}
+    void Start() { this.optimizer = new Optimization(paras); }
 
     // Update is called once per frame
     void Update()

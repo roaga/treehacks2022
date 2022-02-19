@@ -33,8 +33,10 @@ namespace Platformer.Mechanics
 
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
-        /*internal new*/ public Collider2D collider2d;
-        /*internal new*/ public AudioSource audioSource;
+        /*internal new*/
+        public Collider2D collider2d;
+        /*internal new*/
+        public AudioSource audioSource;
         public Health health;
         public bool controlEnabled = true;
 
@@ -50,7 +52,7 @@ namespace Platformer.Mechanics
 
         private Queue<float> rewardBuffer = new Queue<float>();
 
-        public float Reward() 
+        public float Reward()
         {
             // look at distance to goal for past several updates, and sees rate of change
             Vector3 goalPos = goal.transform.position;
@@ -101,8 +103,10 @@ namespace Platformer.Mechanics
             UpdateJumpState();
             base.Update();
 
-            foreach (Param para in easeTool.paras) {
-                if (para.getName() == "speedMult") {
+            foreach (Param para in easeTool.paras)
+            {
+                if (para.getName() == "speedMult")
+                {
                     speedMult = para.getValue();
                     break;
                 }
@@ -110,7 +114,8 @@ namespace Platformer.Mechanics
             Debug.Log(speedMult);
             // if jumpstate.grounded and some time interval, send data
             float reward = Reward();
-            if (jumpState == JumpState.Grounded && numFrames % 60 == 0) {
+            if (jumpState == JumpState.Grounded && numFrames % 60 == 0)
+            {
                 easeTool.optimizer.addData("speedMult", reward);
             }
             numFrames += 1;

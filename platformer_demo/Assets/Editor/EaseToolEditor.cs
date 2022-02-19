@@ -14,8 +14,9 @@ public class EaseToolEditor : Editor
     {
         EaseTool easeTool = (EaseTool)target;
 
-        // base.OnInspectorGUI();
+        base.OnInspectorGUI();
 
+        /*
         GUILayout.Space(10);
 
         easeTool.numParas = EditorGUILayout.IntField("Parameters Num: ", easeTool.numParas);
@@ -47,5 +48,7 @@ public class EaseToolEditor : Editor
         GUILayout.Space(10);
 
         easeTool.PrintParas();
+
+        */
     }
 }
