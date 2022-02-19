@@ -46,6 +46,6 @@ public class EaseTool : MonoBehaviour
         {
             ret += paras[i].name + " ";
         }
-        print(ret);
+        // print(ret);
     }
 }
