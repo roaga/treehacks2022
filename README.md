@@ -15,8 +15,8 @@ platformer_demo
    │        │─   ./Scripts
    │        .           │             
    │        .           ├─────── Optimization.cs     
-   │        .           ...       
-   │        .       
+   │        .           .      
+   │        .           .
    │        .
    │        │─ ./Editor
    │
@@ -24,7 +24,7 @@ platformer_demo
    └─  ./Packages
    │        │  
    │        │─ manifest.json
-   │        │─ packages-lock.json
+   │        └─ packages-lock.json
    │        
    │
    │
