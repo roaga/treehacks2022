@@ -3,7 +3,7 @@ public class Param
     /* it definitely makes since to make param its own class to store potential metadata
     in addition to what I have below. not sure if this is the exact setup we want though
     */
-        public int currentValue;
+    public int currentValue;
     public int defaultValue;
     public string name;
     public Param(int currentValue, int defaultValue, string name) {
@@ -18,7 +18,7 @@ public class Param
         this.name = name;
     }
 
-    void updateValue(int newValue) {
+    void setValue(int newValue) {
         this.currentValue = newValue;
     }
 
