@@ -23,12 +23,9 @@ platformer_demo
    │
    └─  ./Packages
    │        │  
-   │        │─
-   │        │─ 
-   │        │─ 
-   │        │─ 
-   │        │─ 
-   │        │─ 
+   │        │─ manifest.json
+   │        │─ packages-lock.json
+   │        
    │
    │
    └─  ./Project Settings
