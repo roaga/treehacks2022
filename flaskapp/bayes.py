@@ -1,6 +1,8 @@
 # example of bayesian optimization for a 1d function from scratch
+import math
 from math import sin
 from math import pi
+from random import Random
 import numpy as np
 from numpy import arange
 from numpy import vstack
@@ -18,8 +20,6 @@ from matplotlib import pyplot
 # def objective(x, noise=0.1):
 # 	noise = normal(loc=0, scale=noise)
 # 	return (x**2 * sin(5 * pi * x)**6.0) + noise
-
-
 
 # surrogate or approximation for the objective function
 def surrogate(model, X):
@@ -43,28 +43,40 @@ def acquisition(X, Xsamples, model):
 
 # optimize the acquisition function
 def opt_acquisition(X, y, model):
-	# random search, generate random samples
-	Xsamples = asarray(range(11))
-	Xsamples = Xsamples.reshape(len(Xsamples), 1)
-	# calculate the acquisition function for each sample
-	scores = acquisition(X, Xsamples, model)
-	# locate the index of the largest scores
-	ix = argmax(scores)
-	return Xsamples[ix, 0]
+    # random search, generate random samples
+    Xsamples = np.random.uniform(low=0, high=len(X), size=(len(X),)) # asarray(range(len(X))) # TODO: include floats, use constraints
+    Xsamples = Xsamples.reshape(len(Xsamples), 1)
+    # calculate the acquisition function for each sample
+    scores = acquisition(X, Xsamples, model)
+    # locate the index of the largest scores
+    ix = argmax(scores) # TODO: we want to be minimizing dist from target reward/score instead
+    return Xsamples[ix, 0]
 
 # plot real observations vs surrogate function
 def plot(X, y, model):
 	# scatter plot of inputs and real objective function
-	pyplot.scatter(X, y)
-	# line plot of surrogate function across domain
-	Xsamples = asarray(arange(0, 11, 0.01))
-	Xsamples = Xsamples.reshape(len(Xsamples), 1)
-	ysamples, _ = surrogate(model, Xsamples)
-	pyplot.plot(Xsamples, ysamples)
-	# show the plot
-	pyplot.show()
+    pyplot.scatter(X, y)
+    # line plot of surrogate function across domain
+    Xsamples = asarray(arange(0, len(X), 0.01))
+    Xsamples = Xsamples.reshape(len(Xsamples), 1)
+    ysamples, _ = surrogate(model, Xsamples)
+    maxX = Xsamples[argmax(ysamples)][0]
+    pyplot.plot(Xsamples, ysamples)
+    # show the plot
+    # pyplot.show()
+    return maxX
+
+def find_nearest(array,value):
+    idx = np.searchsorted(array, value, side="left")
+    if idx > 0 and (idx == len(array) or math.fabs(value - array[idx-1]) < math.fabs(value - array[idx])):
+        return idx - 1
+    else:
+        return idx
 
 def get_result(xpts, ypts):
+    # for testing
+    # xpts = range(500)
+    # ypts = [random() * 20 for x in xpts]
     # sample the domain sparsely with noise
     X = asarray(xpts)
     Y = asarray(ypts)
@@ -76,26 +88,29 @@ def get_result(xpts, ypts):
     # fit the model
     model.fit(X, y)
     # plot before hand
-    # plot(X, y, model)
+    return plot(X, y, model)
     # perform the optimization process
-    for i in range(50):
-        # select the next point to sample
-        x = opt_acquisition(X, y, model)
-        # sample the point
-        actual = Y[np.where(X==x)[0][0]]
-        # summarize the finding
-        est, _ = surrogate(model, [[x]])
-        # print(est, actual)
-        # print('>x=%.3f, f()=%3f, actual=%.3f' % (x, est, actual))
-        # add the data to the dataset
-        X = vstack((X, [[x]]))
-        y = vstack((y, [[actual]]))
-        # update the model
-        model.fit(X, y)
+    # for i in range(50):
+    #     # select the next point to sample
+    #     x = opt_acquisition(X, y, model)
+    #     # sample the point
+    #     val = min(X.flatten(), key=lambda k:abs(k - x))
+    #     actual = min(Y, key=lambda k:abs(k - val))
+    #     # summarize the finding
+    #     est, _ = surrogate(model, [[x]])
+    #     # print('>x=%.3f, f()=%3f, actual=%.3f' % (x, est, actual))
+    #     # add the data to the dataset
+    #     X = vstack((X, [[x]]))
+    #     y = vstack((y, [[actual]]))
+    #     # update the model
+    #     model.fit(X, y)
 
-    # plot all samples and the final surrogate function
+    # # plot all samples and the final surrogate function
     # plot(X, y, model)
-    # best result
-    ix = argmax(y)
-    print('Best Result: x=%.3f, y=%.3f' % (X[ix], y[ix]))
-    return X[ix]
+    # # best result
+    # ix = argmax(y)
+    # print('Best Result: x=%.3f, y=%.3f' % (X[ix], y[ix]))
+    # return X[ix]
+
+# for testing
+# print(get_result([], []))

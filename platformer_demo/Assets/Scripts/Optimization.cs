@@ -31,6 +31,7 @@ public class Optimization : MonoBehaviour
         foreach (Param param in parameters) {
             if (param.getName() == name) {
                 param.addData(reward);
+                break;
             }
         }
     }
@@ -64,6 +65,7 @@ public class Optimization : MonoBehaviour
     }
 
     private void optimize(Param param) {
+        // TODO: accomodate target reward and determine when to terminate optimization
         List<(float, float)> data = param.getData();
         float currValue = param.getValue();
         float min = param.getMin();
