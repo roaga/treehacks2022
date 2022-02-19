@@ -24,6 +24,10 @@ public class Optimization : MonoBehaviour
     // }
     
     public Optimization(List<Param> paras) {
+        for (int i = 0; i < paras.Count; i++) {
+            paras[i].currentValue = paras[i].defaultValue;
+            paras[i].data = new List<(float, float)>();
+        }
         this.parameters = paras;
     }
 
@@ -40,7 +44,8 @@ public class Optimization : MonoBehaviour
         runs += 1;
         // for each parameter, update value to optimize toward desired goal (or just random change/sample if not enough data)
         foreach (Param param in parameters) {
-            if (param.getData().Count > 10) {
+            List<(float,float)> data = param.getData();
+            if (data.Capacity > 10) {
                 // optimize values!
                 optimize(param);
             } else {

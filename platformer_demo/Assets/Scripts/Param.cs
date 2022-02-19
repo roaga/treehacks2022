@@ -13,9 +13,8 @@ public class Param
     public float min;
     public float max;
     public float targetReward;
-
-    private float currentValue;
-    private List<(float, float)> data;
+    public float currentValue;
+    public List<(float, float)> data;
 
     public Param(string name, float defaultValue, float min, float max, float targetReward)
     {
