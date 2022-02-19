@@ -1,10 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class EaseTool : MonoBehaviour
 {
     public List<Param> paras;
+    public int numParas;
     // public func rewardFunc;
     private int numFrames;
     public int framesPerUpdate; // update params every N frames
@@ -25,7 +27,8 @@ public class EaseTool : MonoBehaviour
     void Update()
     {
         numFrames++;
-        if (numFrames % framesPerUpdate == 0) {
+        if (numFrames % framesPerUpdate == 0)
+        {
             int score = -1; // TODO: pass in score from most recent frames
             // evaluator.updateWeights(score, target, paraValues, paraWeights);
             // newParams = evaluator.getNextState(paraValues);
@@ -34,5 +37,15 @@ public class EaseTool : MonoBehaviour
             //     paras[i].setValue(newParams[i]);
             // }
         }
+    }
+
+    public void PrintParas()
+    {
+        string ret = "List: ";
+        for (int i = 0; i < paras.Count; i++)
+        {
+            ret += paras[i].name + " ";
+        }
+        print(ret);
     }
 }
