@@ -53,30 +53,31 @@ def opt_acquisition(X, y, model):
     return Xsamples[ix, 0]
 
 # plot real observations vs surrogate function
-def plot(X, y, model):
+def plot(X, y, model, target):
 	# scatter plot of inputs and real objective function
     pyplot.scatter(X, y)
     # line plot of surrogate function across domain
     Xsamples = asarray(arange(0, len(X), 0.01))
     Xsamples = Xsamples.reshape(len(Xsamples), 1)
     ysamples, _ = surrogate(model, Xsamples)
-    maxX = Xsamples[argmax(ysamples)][0]
+    maxX = Xsamples[find_nearest(ysamples, target)][0] # find closest to target instead of max
+    # print(maxX)
+    # maxX = Xsamples[argmax(ysamples)][0]
+    # print(maxX)
     pyplot.plot(Xsamples, ysamples)
     # show the plot
-    # pyplot.show()
+    pyplot.show()
     return maxX
 
-def find_nearest(array,value):
-    idx = np.searchsorted(array, value, side="left")
-    if idx > 0 and (idx == len(array) or math.fabs(value - array[idx-1]) < math.fabs(value - array[idx])):
-        return idx - 1
-    else:
-        return idx
+def find_nearest(array, value):
+    array = np.asarray(array)
+    idx = (np.abs(array - value)).argmin()
+    return idx
 
-def get_result(xpts, ypts):
+def get_result(xpts, ypts, target):
     # for testing
-    # xpts = range(500)
-    # ypts = [random() * 20 for x in xpts]
+    xpts = range(10)
+    ypts = [random() * 20 for x in xpts]
     # sample the domain sparsely with noise
     X = asarray(xpts)
     Y = asarray(ypts)
@@ -88,7 +89,7 @@ def get_result(xpts, ypts):
     # fit the model
     model.fit(X, y)
     # plot before hand
-    return plot(X, y, model)
+    return plot(X, y, model, target)
     # perform the optimization process
     # for i in range(50):
     #     # select the next point to sample
@@ -113,4 +114,4 @@ def get_result(xpts, ypts):
     # return X[ix]
 
 # for testing
-# print(get_result([], []))
+print(get_result([], [], 10))

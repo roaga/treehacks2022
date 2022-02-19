@@ -13,7 +13,8 @@ def home():
 def bayes():
     x = request.json['x']
     y = request.json['y']
-    return str(get_result(x, y)[0])
+    target = request.json['targetReward']
+    return str(get_result(x, y, target))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105, debug=True)

@@ -82,10 +82,12 @@ public class Optimization : MonoBehaviour
     public class Data {
         public List<float> x = new List<float>();
         public List<float> y = new List<float>();
+        public float targetReward;
     }
 
     public void PostData(Param param) {
         Data data = new Data();
+        data.targetReward = param.getTargetReward();
         foreach ((float, float) tuple in param.getData()) {
             data.x.Add(tuple.Item1);
             data.y.Add(tuple.Item2);
