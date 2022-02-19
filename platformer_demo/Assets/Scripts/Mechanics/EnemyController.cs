@@ -15,6 +15,8 @@ namespace Platformer.Mechanics
         public PatrolPath path;
         public AudioClip ouch;
 
+        public float speedMult = 0.5f;
+
         internal PatrolPath.Mover mover;
         internal AnimationController control;
         internal Collider2D _collider;
@@ -46,7 +48,7 @@ namespace Platformer.Mechanics
         {
             if (path != null)
             {
-                if (mover == null) mover = path.CreateMover(control.maxSpeed * 0.5f);
+                if (mover == null) mover = path.CreateMover(control.maxSpeed * speedMult);
                 control.move.x = Mathf.Clamp(mover.Position.x - transform.position.x, -1, 1);
             }
         }
