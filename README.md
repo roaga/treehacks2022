@@ -28,16 +28,19 @@ platformer_demo
    │        
    │
    │
-   └─  ./Project Settings
+   └─  ./ProjectSettings
+   │         │
+   │         │─ Packages/com.unity.learn.iet-framework
+   │         .
+   │         .
+   │         .
    │
    │
    └─  InitCodeMarker
              
-    
-   
    ```
 
-### Frontend
+### Frontend - Unity3D
 
 ### Backend - Bayesian Optimisation 
 
