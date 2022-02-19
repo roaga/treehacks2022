@@ -42,6 +42,30 @@ namespace Platformer.Mechanics
 
         public Bounds Bounds => collider2d.bounds;
 
+        public GameObject goal;
+
+        private Queue<float> rewardBuffer = new Queue<float>();
+
+        public float Reward() 
+        {
+            // look at distance to goal for past several updates, and sees rate of change
+            Vector3 goalPos = goal.transform.position;
+            Vector3 playerPos = transform.position;
+            float dist = Vector3.Distance(goalPos, playerPos);
+
+            rewardBuffer.Enqueue(dist);
+            int size = rewardBuffer.Count;
+            if (size > 50)
+            {
+                rewardBuffer.Dequeue();
+            }
+
+            float change = dist - rewardBuffer.Peek();
+            float reward = change * -10f;
+
+            return reward;
+        }
+
         void Awake()
         {
             health = GetComponent<Health>();
@@ -70,6 +94,7 @@ namespace Platformer.Mechanics
             }
             UpdateJumpState();
             base.Update();
+            Reward();
         }
 
         void UpdateJumpState()
