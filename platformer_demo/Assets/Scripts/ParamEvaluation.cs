@@ -45,6 +45,14 @@ class ParamEvaluation {
       // call getrandomnextstate N times (N = 5?)
       // call evalParam on each one
       // return the list of params with the highest evalParam function value
+      List<int> result = new List<int>();
+      int N = 5;
+      for (int i = 0; i< N; i++){
+        nextState = GetRandomNextState(currentPos)
+        sum = evalParam(nextState, this.paraWeights)
+        result.Add(sum)
+      }
+      return result
     }
 
     void updateWeights(int score, int target, List<int> paraValues, List<float> paraWeights) {
