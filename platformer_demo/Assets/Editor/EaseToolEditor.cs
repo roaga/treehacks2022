@@ -40,6 +40,8 @@ public class EaseToolEditor : Editor
             easeTool.paras[i].min = EditorGUILayout.FloatField("Min: ", easeTool.paras[i].min);
 
             easeTool.paras[i].max = EditorGUILayout.FloatField("Max: ", easeTool.paras[i].max);
+
+            easeTool.paras[i].targetReward = EditorGUILayout.FloatField("Target reward: ", easeTool.paras[i].targetReward);
         }
 
         GUILayout.Space(10);
