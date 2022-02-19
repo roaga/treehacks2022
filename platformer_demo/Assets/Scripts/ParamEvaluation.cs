@@ -41,13 +41,19 @@ class ParamEvaluation {
       return nextState;
     }
 
-    List<int> getNextState(List<int> currentPos) {
+    List<int> getNextState(List<int> currentPos, List<float> weights) {
       // call getrandomnextstate N times (N = 5?)
       // call evalParam on each one
       // return the list of params with the highest evalParam function value
     }
 
+    List<int> getWeights() {
+      return this.paraWeights;
+    }
+
     void updateWeights(int score, int target, List<int> paraValues, List<float> paraWeights) {
+      int scoreDiff = score - target;
+      // relevant parameters for equation: scoreDiff, paraWeights[i], paraValues[i]
       // apply evaluation rule (see whiteboard pic) to each parameter based on score's distance to target score
       // get learning rate with this.learningRate
     }

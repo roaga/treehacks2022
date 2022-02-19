@@ -30,7 +30,7 @@ public class EaseTool : MonoBehaviour
         if (numFrames % framesPerUpdate == 0) {
             int score = -1; // TODO: pass in score from most recent frames
             evaluator.updateWeights(score, target, paraValues, paraWeights);
-            newParams = evaluator.getNextState(paraValues);
+            newParams = evaluator.getNextState(paraValues, evaluator.getWeights());
             // update all param values with ML stuff
             for(int i = 0; i < paras.Length; i++) {
                 paras[i].setValue(newParams[i]);
