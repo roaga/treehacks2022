@@ -111,7 +111,7 @@ namespace Platformer.Mechanics
             // if jumpstate.grounded and some time interval, send data
             float reward = Reward();
             if (jumpState == JumpState.Grounded && numFrames % 60 == 0) {
-                easeTool.optimization.addData("speedMult", reward); // TODO: easeTool.optimization does not exist yet
+                easeTool.optimizer.addData("speedMult", reward);
             }
             numFrames += 1;
         }
