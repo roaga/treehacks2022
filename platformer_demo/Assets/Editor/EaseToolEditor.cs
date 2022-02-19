@@ -13,6 +13,11 @@ public class EaseToolEditor : Editor
         base.OnInspectorGUI();
 
         GUILayout.Space(10);
+        GUILayout.Label("Rank function: ");
+        GUILayout.Space(5);
+        GUILayout.Label("Output Variables Num: ");
+        GUILayout.Space(5);
+
         using (new GUILayout.HorizontalScope())
         {
             GUILayout.Label("Grid Size: ");
