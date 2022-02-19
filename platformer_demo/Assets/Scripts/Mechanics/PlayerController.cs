@@ -14,9 +14,13 @@ namespace Platformer.Mechanics
     /// </summary>
     public class PlayerController : KinematicObject
     {
+        private EaseTool easeTool;
         public AudioClip jumpAudio;
         public AudioClip respawnAudio;
         public AudioClip ouchAudio;
+
+        public float speedMult = 1;
+        private int numFrames;
 
         /// <summary>
         /// Max horizontal speed of the player.
@@ -29,8 +33,10 @@ namespace Platformer.Mechanics
 
         public JumpState jumpState = JumpState.Grounded;
         private bool stopJump;
-        /*internal new*/ public Collider2D collider2d;
-        /*internal new*/ public AudioSource audioSource;
+        /*internal new*/
+        public Collider2D collider2d;
+        /*internal new*/
+        public AudioSource audioSource;
         public Health health;
         public bool controlEnabled = true;
 
@@ -46,7 +52,7 @@ namespace Platformer.Mechanics
 
         private Queue<float> rewardBuffer = new Queue<float>();
 
-        public float Reward() 
+        public float Reward()
         {
             // look at distance to goal for past several updates, and sees rate of change
             Vector3 goalPos = goal.transform.position;
@@ -73,6 +79,8 @@ namespace Platformer.Mechanics
             collider2d = GetComponent<Collider2D>();
             spriteRenderer = GetComponent<SpriteRenderer>();
             animator = GetComponent<Animator>();
+
+            easeTool = GameObject.Find("Optimization Tool").GetComponent<EaseTool>();
         }
 
         protected override void Update()
@@ -94,7 +102,23 @@ namespace Platformer.Mechanics
             }
             UpdateJumpState();
             base.Update();
-            Reward();
+
+            foreach (Param para in easeTool.paras)
+            {
+                if (para.getName() == "speedMult")
+                {
+                    speedMult = para.getValue();
+                    break;
+                }
+            }
+            Debug.Log(speedMult);
+            // if jumpstate.grounded and some time interval, send data
+            float reward = Reward();
+            if (jumpState == JumpState.Grounded && numFrames % 60 == 0)
+            {
+                easeTool.optimizer.addData("speedMult", reward);
+            }
+            numFrames += 1;
         }
 
         void UpdateJumpState()
@@ -131,7 +155,7 @@ namespace Platformer.Mechanics
         {
             if (jump && IsGrounded)
             {
-                velocity.y = jumpTakeOffSpeed * model.jumpModifier;
+                velocity.y = jumpTakeOffSpeed * model.jumpModifier * speedMult;
                 jump = false;
             }
             else if (stopJump)
@@ -151,7 +175,7 @@ namespace Platformer.Mechanics
             animator.SetBool("grounded", IsGrounded);
             animator.SetFloat("velocityX", Mathf.Abs(velocity.x) / maxSpeed);
 
-            targetVelocity = move * maxSpeed;
+            targetVelocity = move * maxSpeed * speedMult;
         }
 
         public enum JumpState

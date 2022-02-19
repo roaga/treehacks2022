@@ -8,24 +8,47 @@ using UnityEditor;
 public class EaseToolEditor : Editor
 {
     float gridSize = 0.0f;
+
+
     public override void OnInspectorGUI()
     {
+        EaseTool easeTool = (EaseTool)target;
+
         base.OnInspectorGUI();
 
+        /*
         GUILayout.Space(10);
-        GUILayout.Label("Rank function: ");
-        GUILayout.Space(5);
-        GUILayout.Label("Output Variables Num: ");
-        GUILayout.Space(5);
 
-        using (new GUILayout.HorizontalScope())
+        easeTool.numParas = EditorGUILayout.IntField("Parameters Num: ", easeTool.numParas);
+
+        if (easeTool.paras == null)
         {
-            GUILayout.Label("Grid Size: ");
-            if (GUILayout.Button("Snap Selecttion"))
-            {
-
-            }
+            easeTool.paras = new List<Param>();
         }
+        while (easeTool.paras.Count < easeTool.numParas)
+        {
+            easeTool.paras.Add(new Param("", 0, 0, 0, 0));
+        }
+
+        for (int i = 0; i < easeTool.numParas; i++)
+        {
+            GUILayout.Space(10);
+            GUILayout.Label("Parameter " + i);
+            easeTool.paras[i].name = EditorGUILayout.TextField("Name: ", easeTool.paras[i].name);
+
+            easeTool.paras[i].defaultValue = EditorGUILayout.FloatField("Default ", easeTool.paras[i].defaultValue);
+
+            easeTool.paras[i].min = EditorGUILayout.FloatField("Min: ", easeTool.paras[i].min);
+
+            easeTool.paras[i].max = EditorGUILayout.FloatField("Max: ", easeTool.paras[i].max);
+
+            easeTool.paras[i].targetReward = EditorGUILayout.FloatField("Target reward: ", easeTool.paras[i].targetReward);
+        }
+
         GUILayout.Space(10);
+
+        easeTool.PrintParas();
+
+        */
     }
 }
