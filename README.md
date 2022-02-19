@@ -1,6 +1,6 @@
 ## Title 
 
-
+This project was developed during TreeHacks 2022.
 
 
 ## Requirments
