@@ -6,16 +6,19 @@ public class Param
     public int currentValue;
     public int defaultValue;
     public string name;
-    public Param(int currentValue, int defaultValue, string name) {
+    public int increment;
+    public Param(int currentValue, int defaultValue, string name, int increment) {
         this.currentValue = currentValue;
         this.defaultValue = defaultValue;
         this.name = name;
+        this.increment = increment;
     }
 
     public Param(int defaultValue, string name) {
         this.currentValue = defaultValue;
         this.defaultValue = defaultValue;
         this.name = name;
+        this.increment = 1;
     }
 
     void setValue(int newValue) {
@@ -28,6 +31,10 @@ public class Param
 
     int getValue() {
         return this.currentValue;
+    }
+
+    int getIncrement() {
+        return this.increment;
     }
 
     void returnToDefault() {
