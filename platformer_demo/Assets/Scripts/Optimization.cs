@@ -63,7 +63,7 @@ public class Optimization : MonoBehaviour
         return parameters;
     }
 
-    private float optimize(Param param) {
+    private void optimize(Param param) {
         List<(float, float)> data = param.getData();
         float currValue = param.getValue();
         float min = param.getMin();
