@@ -1,6 +1,8 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine;
 
 [System.Serializable]
 public class Param
@@ -66,8 +68,19 @@ public class Param
         return this.data;
     }
 
+    public void initializeData()
+    {
+        this.data = new List<(float, float)>();
+    }
+
     public void addData(float reward)
     {
+
+        if (this.data == null)
+        {
+            initializeData();
+        }
+
         this.data.Add((currentValue, reward));
         if (data.Count > 1000)
         {
