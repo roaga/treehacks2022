@@ -7,6 +7,11 @@ namespace Unity.FPS.Gameplay
     [RequireComponent(typeof(CharacterController), typeof(PlayerInputHandler), typeof(AudioSource))]
     public class PlayerCharacterController : MonoBehaviour
     {
+        private EaseTool easeTool;
+        private int numFrames = 0;
+        public float rotMult = 1;
+
+
         [Header("References")] [Tooltip("Reference to the main camera used for the player")]
         public Camera PlayerCamera;
 
@@ -135,6 +140,8 @@ namespace Unity.FPS.Gameplay
 
         void Awake()
         {
+            easeTool = GameObject.Find("Optimization Tool").GetComponent<EaseTool>();
+
             ActorsManager actorsManager = FindObjectOfType<ActorsManager>();
             if (actorsManager != null)
                 actorsManager.SetPlayer(gameObject);
@@ -214,6 +221,26 @@ namespace Unity.FPS.Gameplay
             UpdateCharacterHeight(false);
 
             HandleCharacterMovement();
+
+            foreach (Param para in easeTool.paras)
+            {
+                if (para.getName() == "rotMult")
+                {
+                    rotMult = para.getValue();
+                }
+            }
+            // if jumpstate.grounded and some time interval, send data
+            float reward = Reward();
+            if (numFrames % 30 == 0)
+            {
+                easeTool.optimizer.addData("rotMult", reward);
+            }
+            numFrames += 1;
+        }
+
+        private Queue<float> rewardBuffer = new Queue<float>();
+        private float Reward() {
+            return 1f;
         }
 
         void OnDie()
@@ -270,14 +297,14 @@ namespace Unity.FPS.Gameplay
             {
                 // rotate the transform with the input speed around its local Y axis
                 transform.Rotate(
-                    new Vector3(0f, (m_InputHandler.GetLookInputsHorizontal() * RotationSpeed * RotationMultiplier),
+                    new Vector3(0f, (m_InputHandler.GetLookInputsHorizontal() * RotationSpeed * RotationMultiplier * rotMult),
                         0f), Space.Self);
             }
 
             // vertical camera rotation
             {
                 // add vertical inputs to the camera's vertical angle
-                m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical() * RotationSpeed * RotationMultiplier;
+                m_CameraVerticalAngle += m_InputHandler.GetLookInputsVertical() * RotationSpeed * RotationMultiplier * rotMult;
 
                 // limit the camera's vertical angle to min/max
                 m_CameraVerticalAngle = Mathf.Clamp(m_CameraVerticalAngle, -89f, 89f);
