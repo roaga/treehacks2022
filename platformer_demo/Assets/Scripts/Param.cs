@@ -1,6 +1,8 @@
 
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using UnityEngine;
 
 [System.Serializable]
 public class Param
@@ -13,9 +15,8 @@ public class Param
     public float min;
     public float max;
     public float targetReward;
-
-    private float currentValue;
-    private List<(float, float)> data;
+    public float currentValue;
+    public List<(float, float)> data;
 
     public Param(string name, float defaultValue, float min, float max, float targetReward)
     {
@@ -67,8 +68,19 @@ public class Param
         return this.data;
     }
 
+    public void initializeData()
+    {
+        this.data = new List<(float, float)>();
+    }
+
     public void addData(float reward)
     {
+
+        if (this.data == null)
+        {
+            initializeData();
+        }
+
         this.data.Add((currentValue, reward));
         if (data.Count > 1000)
         {

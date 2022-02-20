@@ -11,7 +11,10 @@ public class EaseTool : MonoBehaviour
     [HideInInspector]
     public Optimization optimizer;
     public int framesPerUpdate; // update params every N frames
-    void Start() { this.optimizer = new Optimization(paras); }
+    void Start() {
+        this.optimizer = gameObject.AddComponent<Optimization>() as Optimization;
+        this.optimizer.parameters = this.paras;
+    }
 
     // Update is called once per frame
     void Update()
