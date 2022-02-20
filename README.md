@@ -1,6 +1,6 @@
 ## MechanicEase 
 
-This project was developed during TreeHacks 2022 by Rohan Agarwal, Christian Yang, Andy Liu, and Simonetta Ifeji.
+This project was developed during TreeHacks 2022 by [Rohan](https://github.com/roaga), [Christian](https://github.com/kychris), [Andy](https://github.com/al1729), and [Simona](https://github.com/robotAstray).
 
 ## Inspiration
 
