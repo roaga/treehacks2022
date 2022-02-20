@@ -55,7 +55,7 @@ def opt_acquisition(X, y, model):
 # plot real observations vs surrogate function
 def plot(X, y, model, target):
 	# scatter plot of inputs and real objective function
-    pyplot.scatter(X, y)
+    # pyplot.scatter(X, y)
     # line plot of surrogate function across domain
     Xsamples = asarray(arange(0, len(X), 0.01))
     Xsamples = Xsamples.reshape(len(Xsamples), 1)
@@ -64,9 +64,9 @@ def plot(X, y, model, target):
     # print(maxX)
     # maxX = Xsamples[argmax(ysamples)][0]
     # print(maxX)
-    pyplot.plot(Xsamples, ysamples)
+    # pyplot.plot(Xsamples, ysamples)
     # show the plot
-    pyplot.show()
+    # pyplot.show()
     return maxX
 
 def find_nearest(array, value):
