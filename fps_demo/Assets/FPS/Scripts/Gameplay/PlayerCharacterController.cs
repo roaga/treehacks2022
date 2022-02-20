@@ -1,7 +1,8 @@
 ﻿using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.Events;
-using EaseTool;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Unity.FPS.Gameplay
 {
@@ -244,8 +245,8 @@ namespace Unity.FPS.Gameplay
 
         private Queue<float> rewardBuffer = new Queue<float>();
         private float Reward() {
-            currentTime = Time.time;
-            return m_Health + (currentTime - startingTime);
+            float currentTime = Time.time;
+            return m_Health.CurrentHealth + (currentTime - startingTime);
         }
 
         void OnDie()
