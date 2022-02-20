@@ -61,13 +61,14 @@ namespace Platformer.Mechanics
 
             rewardBuffer.Enqueue(dist);
             int size = rewardBuffer.Count;
-            if (size > 50)
+            if (size > 60)
             {
                 rewardBuffer.Dequeue();
             }
 
             float change = dist - rewardBuffer.Peek();
             float reward = change * -10f;
+            // float reward = goalPos.x - playerPos.x;
 
             return reward;
         }
@@ -111,10 +112,9 @@ namespace Platformer.Mechanics
                     break;
                 }
             }
-            Debug.Log(speedMult);
             // if jumpstate.grounded and some time interval, send data
             float reward = Reward();
-            if (jumpState == JumpState.Grounded && numFrames % 60 == 0)
+            if (jumpState == JumpState.Grounded && numFrames % 30 == 0)
             {
                 easeTool.optimizer.addData("speedMult", reward);
             }

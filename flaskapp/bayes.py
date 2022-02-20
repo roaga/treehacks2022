@@ -44,20 +44,20 @@ def acquisition(X, Xsamples, model):
 # optimize the acquisition function
 def opt_acquisition(X, y, model):
     # random search, generate random samples
-    Xsamples = np.random.uniform(low=0, high=len(X), size=(len(X),)) # asarray(range(len(X))) # TODO: include floats, use constraints
+    Xsamples = np.random.uniform(low=0, high=len(X), size=(len(X),)) # asarray(range(len(X)))
     Xsamples = Xsamples.reshape(len(Xsamples), 1)
     # calculate the acquisition function for each sample
     scores = acquisition(X, Xsamples, model)
     # locate the index of the largest scores
-    ix = argmax(scores) # TODO: we want to be minimizing dist from target reward/score instead
+    ix = argmax(scores)
     return Xsamples[ix, 0]
 
 # plot real observations vs surrogate function
-def plot(X, y, model, target):
+def plot(X, y, model, target, min, max):
 	# scatter plot of inputs and real objective function
     # pyplot.scatter(X, y)
     # line plot of surrogate function across domain
-    Xsamples = asarray(arange(0, len(X), 0.01))
+    Xsamples = asarray(arange(min, max, 0.01))
     Xsamples = Xsamples.reshape(len(Xsamples), 1)
     ysamples, _ = surrogate(model, Xsamples)
     maxX = Xsamples[find_nearest(ysamples, target)][0] # find closest to target instead of max
@@ -74,10 +74,10 @@ def find_nearest(array, value):
     idx = (np.abs(array - value)).argmin()
     return idx
 
-def get_result(xpts, ypts, target):
+def get_result(xpts, ypts, target, min, max):
     # for testing
-    xpts = range(10)
-    ypts = [random() * 20 for x in xpts]
+    # xpts = range(10)
+    # ypts = [random() * 20 for x in xpts]
     # sample the domain sparsely with noise
     X = asarray(xpts)
     Y = asarray(ypts)
@@ -89,7 +89,7 @@ def get_result(xpts, ypts, target):
     # fit the model
     model.fit(X, y)
     # plot before hand
-    return plot(X, y, model, target)
+    return plot(X, y, model, target, min, max)
     # perform the optimization process
     # for i in range(50):
     #     # select the next point to sample
@@ -114,4 +114,4 @@ def get_result(xpts, ypts, target):
     # return X[ix]
 
 # for testing
-print(get_result([], [], 10))
+# print(get_result([], [], 10))

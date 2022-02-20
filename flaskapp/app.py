@@ -14,7 +14,9 @@ def bayes():
     x = request.json['x']
     y = request.json['y']
     target = request.json['targetReward']
-    return str(get_result(x, y, target))
+    min = request.json['min']
+    max = request.json['max']
+    return str(get_result(x, y, target, min, max))
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=105, debug=True)

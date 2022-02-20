@@ -105,7 +105,6 @@ public class Optimization : MonoBehaviour
 
     private void optimize(Param param)
     {
-        // TODO: accomodate target reward and determine when to terminate optimization
         List<(float, float)> data = param.getData();
         float currValue = param.getValue();
         float min = param.getMin();
@@ -124,18 +123,20 @@ public class Optimization : MonoBehaviour
         public List<float> x = new List<float>();
         public List<float> y = new List<float>();
         public float targetReward;
+        public float min;
+        public float max;
     }
 
     public void PostData(Param param)
     {
         Data data = new Data();
         data.targetReward = param.getTargetReward();
+        data.min = param.getMin();
+        data.max = param.getMax();
         foreach ((float, float) tuple in param.getData())
         {
             data.x.Add(tuple.Item1);
             data.y.Add(tuple.Item2);
-            // data.x.Add(i);
-            // data.y.Add(UnityEngine.Random.Range(0f, 20f));
         }
         string json = JsonUtility.ToJson(data);
         StartCoroutine(PostRequest("http://0.0.0.0:105/bayes", json, returnVal =>
