@@ -26,6 +26,8 @@ We would like to explore more advanced machine learning and optimization methods
 
 Additionally, this tool has the potential to be used for dynamic difficulty scaling and personalized gaming experiences for all players, not just for those in need of better accessibility.
 
+Eventually, we would like to add more polish and convenience features to make this a proper plugin. For example, developers still have to write a minimal amount of code to read the updates from our plugin, but we could easily allow them to pass the variable references into our plugin so they don't have to write as much code. Once complete, we would love to release this tool so it can help as many developers and players as possible.
+
 ## Requirements
 
 This project relies on the Unity game engine (specifically version 2020.3.29f1, though it should be easily adaptable to later versions as well) and various Python libraries and frameworks, including Flask.
