@@ -1,6 +1,7 @@
 ﻿using Unity.FPS.Game;
 using UnityEngine;
 using UnityEngine.Events;
+using EaseTool;
 
 namespace Unity.FPS.Gameplay
 {
@@ -134,6 +135,7 @@ namespace Unity.FPS.Gameplay
         float m_CameraVerticalAngle = 0f;
         float m_FootstepDistanceCounter;
         float m_TargetCharacterHeight;
+        public float startingTime;
 
         const float k_JumpGroundingPreventionTime = 0.2f;
         const float k_GroundCheckDistanceInAir = 0.07f;
@@ -145,6 +147,8 @@ namespace Unity.FPS.Gameplay
             ActorsManager actorsManager = FindObjectOfType<ActorsManager>();
             if (actorsManager != null)
                 actorsManager.SetPlayer(gameObject);
+            
+            startingTime = Time.time;
         }
 
         void Start()
@@ -240,7 +244,8 @@ namespace Unity.FPS.Gameplay
 
         private Queue<float> rewardBuffer = new Queue<float>();
         private float Reward() {
-            return 1f;
+            currentTime = Time.time;
+            return m_Health + (currentTime - startingTime);
         }
 
         void OnDie()
@@ -251,6 +256,7 @@ namespace Unity.FPS.Gameplay
             m_WeaponsManager.SwitchToWeaponIndex(-1, true);
 
             EventManager.Broadcast(Events.PlayerDeathEvent);
+            startingTime = Time.time;
         }
 
         void GroundCheck()
