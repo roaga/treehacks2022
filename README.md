@@ -19,7 +19,13 @@ For the sake of this demo, we focused on mechanics related to motor skill, such 
 ## How It Works
 
 The plugin itself is built for the popular Unity game engine in C#. In the Unity Editor, developers can set variable names, constraints, and targets to match their creative intent. In their code, they simply have to reference these variables as desired and send data back to the plugin to evaluate the player performance. The plugin stores and processes all data for each parameter and interfaces with a Flask server in Python that handles the math and logic that optimizes each game variable through curve fitting. The demo platformer game was also built in Unity.
-![Screenshot from 2022-02-20 05-52-54](https://user-images.githubusercontent.com/62884362/154830464-95c51a77-1b0a-4b9f-b42b-a6f677c8265c.png)
+
+
+
+https://user-images.githubusercontent.com/62884362/154843902-efd70893-207a-45f0-81dc-91106da0cd74.mp4
+
+
+
 
 ## Next Steps
 
