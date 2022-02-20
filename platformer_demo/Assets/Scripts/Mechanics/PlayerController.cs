@@ -109,7 +109,8 @@ namespace Platformer.Mechanics
                 if (para.getName() == "speedMult")
                 {
                     speedMult = para.getValue();
-                    break;
+                } else if (para.getName() == "jumpTakeOffSpeed") {
+                    jumpTakeOffSpeed = para.getValue();
                 }
             }
             // if jumpstate.grounded and some time interval, send data
@@ -117,6 +118,7 @@ namespace Platformer.Mechanics
             if (jumpState == JumpState.Grounded && numFrames % 30 == 0)
             {
                 easeTool.optimizer.addData("speedMult", reward);
+                easeTool.optimizer.addData("jumpTakeOffSpeed", reward);
             }
             numFrames += 1;
         }
